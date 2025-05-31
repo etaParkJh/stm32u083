@@ -26,6 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdint.h>
+#include <string.h>
 
 /* USER CODE END Includes */
 
@@ -104,6 +105,15 @@ int main(void)
     if (HAL_GetTick() - pre_time >= 500)
     {
 	pre_time = HAL_GetTick();
+	GPIO_PinState pin = HAL_GPIO_ReadPin(LED_GPIO_Port, LED_Pin);
+	if (pin == GPIO_PIN_RESET)
+	{
+	    HAL_UART_Transmit(&huart2, (const uint8_t*)"LED ON\n", strlen("LED ON\n"), 100);
+	}
+	else
+	{
+	    HAL_UART_Transmit(&huart2, (const uint8_t*)"LED OFF\n", strlen("LED OFF\n"), 100);
+	}
 	HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
     }
     /* USER CODE END WHILE */
